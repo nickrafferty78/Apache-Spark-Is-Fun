@@ -9,95 +9,28 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <jdk.version>1.8</jdk.version>
+        <jdk.version>11.0.8</jdk.version>
         <scala.compat.version>2.12</scala.compat.version>
         <scala.version>2.12.10</scala.version>
-        <spark.version>2.4.5</spark.version>
+        <spark.version>3.0.0-preview</spark.version>
     </properties>
 
     <build>
-        <sourceDirectory>src/main/Scala</sourceDirectory>
-        <testSourceDirectory>src/test/Scala</testSourceDirectory>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <!-- Enable the scala maven plugin, see https://github.com/davidB/scala-maven-plugin for more info -->
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>4.3.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Plugin used to create an Uber jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <keepDependenciesWithProvidedScope>false</keepDependenciesWithProvidedScope>
-                    <relocations>
-                        <relocation>
-                            <pattern>org.apache.http</pattern>
-                            <shadedPattern>shaded.org.apache.http</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Disable surefire and use scalatest instead -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-            <!-- Enable scalatest -->
-            <plugin>
-                <groupId>org.scalatest</groupId>
-                <artifactId>scalatest-maven-plugin</artifactId>
-                <version>1.0</version>
-                <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <junitxml>.</junitxml>
-                    <filereports>WDF TestSuite.txt</filereports>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
     </build>
 
     <dependencies>
-        <!-- Scala dependencies -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.4.1</version>
+        </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
@@ -106,20 +39,17 @@
         <!-- Spark dependencies -->
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_${scala.compat.version}</artifactId>
-            <version>${spark.version}</version>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>3.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>[2.13.2,)</version>
-        </dependency>
+
 
     </dependencies>
 </project>

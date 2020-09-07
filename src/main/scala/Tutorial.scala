@@ -1,15 +1,14 @@
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions._
-import org.apache.log4j.{Level, Logger}
-import org.apache.spark.sql.types.LongType
+
 
 
 object Tutorial extends App {
 
+  Utilities.setupLogging()
 
   val spark = SparkSession
     .builder()
-    .appName("MusicalInstruments")
+    .appName("InstrumentReviews")
     .master("local[*]")
     .getOrCreate()
 
@@ -18,10 +17,10 @@ object Tutorial extends App {
     .read
     .format("json")
     .option("inferSchema", "true")
-    .load("Data/InstrumentReviews.json")
+    .load("data/InstrumentReviews.json")
 
   firstDataFrame.show()
-  firstDataFrame.printSchema()
+
 
 
 
