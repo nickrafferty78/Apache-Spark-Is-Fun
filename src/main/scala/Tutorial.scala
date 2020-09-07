@@ -1,27 +1,13 @@
 import org.apache.spark.sql.SparkSession
-
+import org.apache.spark.sql.functions._
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.types.LongType
+import Utilities._
 
 
 object Tutorial extends App {
 
   Utilities.setupLogging()
-
-  val spark = SparkSession
-    .builder()
-    .appName("InstrumentReviews")
-    .master("local[*]")
-    .getOrCreate()
-
-
-  val firstDataFrame = spark
-    .read
-    .format("json")
-    .option("inferSchema", "true")
-    .load("data/InstrumentReviews.json")
-
-  firstDataFrame.show()
-
-
 
 
 }
